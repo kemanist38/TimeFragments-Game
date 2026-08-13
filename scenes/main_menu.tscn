@@ -1,0 +1,157 @@
+[gd_scene load_steps=5 format=3 uid="uid://mainmenu001"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_Button"]
+bg_color = Color(0.1, 0.4, 0.8, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_ButtonHover"]
+bg_color = Color(0.2, 0.6, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="LabelSettings" id="Label_Title"]
+font_size = 72
+font_color = Color(0.9, 0.95, 1, 1)
+shadow_size = 4
+shadow_color = Color(0, 0.3, 0.8, 0.8)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 200.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+text = "TIME FRAGMENTS"
+label_settings = SubResource("Label_Title")
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 310.0
+offset_right = 200.0
+offset_bottom = 350.0
+grow_horizontal = 2
+text = "Zamanı Kontrol Et"
+horizontal_alignment = 1
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="PlayButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBox_Button")
+theme_override_styles/hover = SubResource("StyleBox_ButtonHover")
+text = "▶  OYNA"
+
+[node name="ShopButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBox_Button")
+theme_override_styles/hover = SubResource("StyleBox_ButtonHover")
+text = "🛒  MAĞAZA"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBox_Button")
+theme_override_styles/hover = SubResource("StyleBox_ButtonHover")
+text = "⚙  AYARLAR"
+
+[node name="ExitButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBox_Button")
+theme_override_styles/hover = SubResource("StyleBox_ButtonHover")
+text = "✕  ÇIKIŞ"
+
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -50.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v1.0.0 Alpha"
+horizontal_alignment = 2
+
+[node name="CrystalPanel" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = 80.0
+grow_horizontal = 0
+
+[node name="CrystalIcon" type="ColorRect" parent="CrystalPanel"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+color = Color(0.2, 0.8, 1, 1)
+
+[node name="CrystalCount" type="Label" parent="CrystalPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "0"
+
+[connection signal="pressed" from="MenuContainer/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MenuContainer/ShopButton" to="." method="_on_shop_pressed"]
+[connection signal="pressed" from="MenuContainer/SettingsButton" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MenuContainer/ExitButton" to="." method="_on_exit_pressed"]
