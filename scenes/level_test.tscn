@@ -1,0 +1,147 @@
+[gd_scene load_steps=12 format=3 uid="uid://leveltest001"]
+
+[ext_resource type="Script" path="res://scripts/level_test.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.1, 0.15, 0.3, 1)
+sky_horizon_color = Color(0.3, 0.2, 0.4, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.25, 0.4, 1)
+fog_enabled = true
+fog_density = 0.02
+
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="GroundMat"]
+albedo_color = Color(0.15, 0.2, 0.25, 1)
+
+[sub_resource type="CapsuleShape3D" id="PlayerShape"]
+
+[sub_resource type="CapsuleMesh" id="PlayerMesh"]
+
+[sub_resource type="StandardMaterial3D" id="PlayerMat"]
+albedo_color = Color(0.2, 0.6, 1, 1)
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.6, 1)
+
+[sub_resource type="BoxShape3D" id="PlatformShape"]
+size = Vector3(4, 1, 4)
+
+[sub_resource type="BoxMesh" id="PlatformMesh"]
+size = Vector3(4, 1, 4)
+
+[node name="LevelTest" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707, -0.5, 0.5, 0, 0.707, 0.707, -0.707, -0.5, 0.5, 20, 30, 20)
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("GroundShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+surface_override_material/0 = SubResource("GroundMat")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+collision_layer = 2
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("PlayerShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("PlayerMesh")
+surface_override_material/0 = SubResource("PlayerMat")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.866, 0.5, 0, -0.5, 0.866, 0, 8, 10)
+current = true
+
+[node name="Platforms" type="Node3D" parent="."]
+
+[node name="Platform1" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform1"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform1"]
+mesh = SubResource("PlatformMesh")
+
+[node name="Platform2" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform2"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform2"]
+mesh = SubResource("PlatformMesh")
+
+[node name="Platform3" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform3"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform3"]
+mesh = SubResource("PlatformMesh")
+
+[node name="Crystals" type="Node3D" parent="."]
+
+[node name="Crystal1" type="Area3D" parent="Crystals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.5, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Crystals/Crystal1"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Crystals/Crystal1"]
+mesh = SubResource("PlatformMesh")
+
+[node name="Crystal2" type="Area3D" parent="Crystals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.5, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Crystals/Crystal2"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Crystals/Crystal2"]
+mesh = SubResource("PlatformMesh")
+
+[node name="Goal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 5, 0)
+collision_layer = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Goal"]
+shape = SubResource("PlatformShape")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Goal"]
+mesh = SubResource("PlatformMesh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_hud")]
+
+[connection signal="body_entered" from="Crystals/Crystal1" to="." method="_on_crystal_collected"]
+[connection signal="body_entered" from="Crystals/Crystal2" to="." method="_on_crystal_collected"]
+[connection signal="body_entered" from="Goal" to="." method="_on_goal_reached"]
