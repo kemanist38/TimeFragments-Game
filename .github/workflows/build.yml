@@ -1,0 +1,61 @@
+name: Build TimeFragments
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y scons build-essential
+    
+    - name: Setup Godot
+      run: |
+        wget -q https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_linux.x86_64.zip
+        unzip Godot_v4.2.1-stable_linux.x86_64.zip
+        sudo mv Godot_v4.2.1-stable_linux.x86_64 /usr/local/bin/godot
+        chmod +x /usr/local/bin/godot
+    
+    - name: Build GDExtension
+      run: |
+        git clone https://github.com/godotengine/godot-cpp.git
+        cd godot-cpp && git checkout 4.2.1-stable
+        git submodule update --init --recursive
+        scons platform=linux target=template_release -j4
+        cd .. && scons platform=linux target=template_release -j4
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-build
+        path: demo/bin/
+
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+    
+    - name: Build Android
+      run: |
+        echo "Android build burada yapılacak"
+        # Android build komutları
